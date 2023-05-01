@@ -78,6 +78,11 @@ public class MainActivity extends AppCompatActivity {
                 {
                     String receiverKey = dataSnapshot.getKey();
                     Long timeStamp = dataSnapshot.child("LastMessageTimeStamp").getValue(Long.class);
+                    if(timeStamp == null)
+                    {
+                        // Data changed but not completely, so not do anything right now
+                        return;
+                    }
                     // Storing the IDs of User with whom the Current User Has Done Chats
                     mapReceiverTime.put(receiverKey, timeStamp);
                 }
@@ -115,8 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-
-
 
             }
 

@@ -96,18 +96,6 @@ public class ChatWindow extends AppCompatActivity {
                 .child(receiverRoom)
                 .child("Messages");
 
-        reference.addValueEventListener(new ValueEventListener() {
-            // For getting Sender Photo
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                senderImg = snapshot.child("profilePic").getValue().toString();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         chatReferenceSender.addValueEventListener(new ValueEventListener() {
             @Override
@@ -119,6 +107,19 @@ public class ChatWindow extends AppCompatActivity {
                 }
                 linearLayoutManager.scrollToPosition(messageArrayList.size() - 1);
                 messageAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        reference.addValueEventListener(new ValueEventListener() {
+            // For getting Sender Photo
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                senderImg = snapshot.child("profilePic").getValue().toString();
             }
 
             @Override
@@ -140,59 +141,59 @@ public class ChatWindow extends AppCompatActivity {
                 Date date = new Date();
                 long timestamp = date.getTime();
                 MsgModel messageModel = new MsgModel(message, senderUid, timestamp);
-                chatReferenceSender.push().setValue(messageModel)
+                chatReferenceSender.push().setValue(messageModel) // saving message in sender room
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                chatReferenceReceiver.push().setValue(messageModel)
+                                chatReferenceReceiver.push().setValue(messageModel)  // saving receiver in sender room
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
+                                                // below code for storing lastMessageTimeStamp
+                                                database.getReference()
+                                                        .child("AppUser")
+                                                        .child(senderUid)
+                                                        .child("MyChats")
+                                                        .child(senderRoom)
+                                                        .child("LastMessageTimeStamp")
+                                                        .setValue(timestamp)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                database.getReference()
+                                                                        .child("AppUser")
+                                                                        .child(receiverUid)
+                                                                        .child("MyChats")
+                                                                        .child(receiverRoom)
+                                                                        .child("LastMessageTimeStamp")
+                                                                        .setValue(timestamp)
+                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<Void> task) {
 
+                                                                            }
+                                                                        });
+                                                            }
+                                                        });
+
+                                                // below code for storing Recent Activity Of Users Sending Messages
+                                                database.getReference()
+                                                        .child("AppUser")
+                                                        .child(senderUid)
+                                                        .child("RecentActivity")
+                                                        .setValue(timestamp)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                // Might not be same for receiver
+                                                            }
+                                                        });
                                             }
                                         });
                             }
                         });
 
-                // below code for storing lastMessageTimeStamp
-                         database.getReference()
-                        .child("AppUser")
-                        .child(senderUid)
-                        .child("MyChats")
-                        .child(senderRoom)
-                        .child("LastMessageTimeStamp")
-                        .setValue(timestamp)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                database.getReference()
-                                        .child("AppUser")
-                                        .child(receiverUid)
-                                        .child("MyChats")
-                                        .child(receiverRoom)
-                                        .child("LastMessageTimeStamp")
-                                        .setValue(timestamp)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
 
-                                            }
-                                        });
-                            }
-                        });
-
-                // below code for storing Recent Activity Of Users Sending Messages
-                database.getReference()
-                        .child("AppUser")
-                        .child(senderUid)
-                        .child("RecentActivity")
-                        .setValue(timestamp)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                // Might not be same for receiver
-                            }
-                        });
             }
         });
 
