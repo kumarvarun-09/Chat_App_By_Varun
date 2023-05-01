@@ -152,23 +152,27 @@ public class Search extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     RecyclerView mainUserRecyclerView;
+    DatabaseReference reference;
     SearchAdapter adapter;
     ArrayList<Users> userArrayList;
     ImageView backTop;
     EditText searchBar;
     String senderUid;
+    Boolean searchedByUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        searchedByUser = true;
+
         backTop = findViewById(R.id.backTop);
         searchBar = findViewById(R.id.searchName);
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference().child("AppUser");
+        reference = database.getReference().child("AppUser");
 
         senderUid = auth.getUid();
 
@@ -183,9 +187,17 @@ public class Search extends AppCompatActivity {
                     searchBar.setError("Enter Name or Email");
                     return true;
                 }
+
+                searchedByUser = true;
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(!searchedByUser)
+                        {
+                            // Means the method is called by Another event Apart from searching
+                            return;
+                        }
+                        searchedByUser = false;
                         userArrayList.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             // Fetching Nodes with name IDs
@@ -199,6 +211,7 @@ public class Search extends AppCompatActivity {
                         }
                         adapter.notifyDataSetChanged();
                         if (userArrayList.isEmpty()) {
+                            Log.d("IN_SEARCH_ACTIVITY", "NO RESULT TOAST");
                             Toast.makeText(Search.this, "No results found", Toast.LENGTH_SHORT).show();
                         }
                     }
