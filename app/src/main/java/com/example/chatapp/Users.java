@@ -10,6 +10,8 @@ public class Users {
     String profilePic;
     String status;
 
+    long timeStamp;
+
     public Users()
     {
 
@@ -71,6 +73,15 @@ public class Users {
 //    public void setLastMessage(String lastMessage) {
 //        this.lastMessage = lastMessage;
 //    }
+
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     public String getStatus() {
         return status;

@@ -32,7 +32,9 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
-            android:visibility="gone"
+            android:visibility="visible"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/prograssbar_design1"
             android:layout_marginRight="20dp"/>
 
 

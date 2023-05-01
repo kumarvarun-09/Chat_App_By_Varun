@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,8 +36,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder> {
     @Override
     public void onBindViewHolder(@NonNull UserAdapter.viewHolder holder, int position) {
         Users user = userArrayList.get(position);
-        holder.userName.setText(user.userName);
+        holder.userName.setText(user.userName); // setting user name on recycler view
         holder.email.setText(user.email);
+        holder.timeStamp.setText(getTimeDate(user.timeStamp));
         Picasso.get().load(user.profilePic).into(holder.profilePic);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -57,14 +61,25 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder> {
 
     public class viewHolder extends RecyclerView.ViewHolder {
         CircleImageView profilePic;
-        TextView userName, email;
+        TextView userName, email, timeStamp;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             profilePic = itemView.findViewById(R.id.profilePic);
             userName = itemView.findViewById(R.id.userName);
             email = itemView.findViewById(R.id.email);
+            timeStamp = itemView.findViewById(R.id.timeStamp);
 
+        }
+    }
+
+    public static String getTimeDate(long timestamp){
+        try{
+            Date netDate = (new Date(timestamp));
+            SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
+            return sfd.format(netDate);
+        } catch(Exception e) {
+            return "date";
         }
     }
 }
