@@ -3,15 +3,20 @@ package com.example.chatapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -34,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
     UserAdapter adapter;
 
     ArrayList<Users> userArrayList;
-    ImageView logoutImageView, searchImg;
     String senderUid;
     ProgressBar progressBar;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
 
-        logoutImageView = findViewById(R.id.logout);
-        searchImg = findViewById(R.id.searchImg);
+        toolbar = findViewById(R.id.toolbar); // custom toolbar
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.app_name);
+
         mainUserRecyclerView = findViewById(R.id.mainUserRecyclerView);
         progressBar = findViewById(R.id.progressBar);
 
@@ -62,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
 
         userArrayList = new ArrayList<>();
 
-        progressBar.setVisibility(View.VISIBLE);
         chatReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                progressBar.setVisibility(View.VISIBLE);
                 SortedMap<String, Long> mapReceiverTime = new TreeMap<>();
                 SortedMap<Long, Users> mapTimeUser = new TreeMap<>(new Comparator<Long>() {
                     public int compare(Long a, Long b)
@@ -129,9 +136,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        logoutImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+        adapter = new UserAdapter(MainActivity.this, userArrayList);
+        mainUserRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mainUserRecyclerView.setAdapter(adapter);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        new MenuInflater(this).inflate(R.menu.opt_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+
+        if(itemId == R.id.searchImg)
+        {
+            Intent intent = new Intent(MainActivity.this, Search.class);
+            startActivity(intent);
+        }
+        else if(itemId == R.id.settings)
+        {
+            startActivity(new Intent(MainActivity.this, Setting.class));
+        }
+        else if(itemId == R.id.logout)
+        {
+
                 AlertDialog.Builder logout = new AlertDialog.Builder(MainActivity.this);
                 logout.setTitle("Logout?");
                 logout.setIcon(R.drawable.baseline_logout_24);
@@ -142,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                      // logout
+                        // logout
                         FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent(MainActivity.this, Login.class);
                         startActivity(intent);
@@ -158,26 +191,12 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 logout.show(); // very IMPORTANT
-            }
-        });
 
-        searchImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Search.class);
-                startActivity(intent);
-                //finish();
-            }
-        });
-
-
-        adapter = new UserAdapter(MainActivity.this, userArrayList);
-        mainUserRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mainUserRecyclerView.setAdapter(adapter);
-
+        }
+        else //if(itemId == android.R.id.home)  //this is for back button
+        {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
-
-
-
-
 }

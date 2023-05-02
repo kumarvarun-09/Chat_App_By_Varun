@@ -6,95 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentStart="true"
-        android:background="#8134CD"
-        android:layout_marginBottom="3dp"
-        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:id="@+id/appbar"
         >
-
-        <TextView
-            android:layout_width="0dp"
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_weight="1"
-            android:gravity="start"
-            android:text="@string/app_name"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:background="@color/appColor"
+            android:theme="@style/AppTheme.ActionBarTheme"
+            app:titleTextColor="@color/white"
+            app:menu="@menu/opt_menu"
+            android:id="@+id/toolbar"
+            >
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:visibility="visible"
-            android:indeterminate="true"
-            android:indeterminateDrawable="@drawable/prograssbar_design1"
-            android:layout_marginRight="20dp"/>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-
-        <ImageView
-            android:id="@+id/searchImg"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_gravity="center"
-            android:background="@drawable/baseline_search_white_24"
-            android:layout_marginRight="20dp"/>
-        <ImageView
-            android:id="@+id/logout"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:background="@drawable/baseline_logout_ehite_24"
-            android:layout_marginRight="10dp"/>
-
-
-    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mainUserRecyclerView"
-        android:layout_width="402dp"
-        android:layout_height="601dp"
-        android:layout_above="@+id/bottomLinearBar"
-        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appbar"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="2dp"
-        android:layout_marginBottom="1dp" />
+        android:layout_marginBottom="1dp" >
 
-    <LinearLayout
-        android:id="@+id/bottomLinearBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp">
+    </androidx.recyclerview.widget.RecyclerView>
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="35dp"
-            android:src="@drawable/baseline_camera_alt_24" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="35dp"
-            android:src="@drawable/baseline_chat_24" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/baseline_settings_applications_24" />
-    </LinearLayout>
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/progress_bar_design2"
+        />
 </RelativeLayout>

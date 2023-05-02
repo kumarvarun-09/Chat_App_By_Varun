@@ -57,7 +57,7 @@ public class Register extends AppCompatActivity {
         signupBtn = findViewById(R.id.signupBtn);
         profilePic = findViewById(R.id.profilePic);
         progressBar = findViewById(R.id.progressBar);
-        status = "Hey there, I am using this Chat App";
+        status = "Hey there, I am using Varun's Chat App";
 
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override

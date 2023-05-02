@@ -24,7 +24,8 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        android:src="@drawable/baseline_camera_24"
+        android:background="#DCD9D9"
+        android:src="@drawable/baseline_person_40"
         android:layout_marginBottom="20dp"
         />
 
@@ -122,9 +123,13 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/progress_bar_design2"
+        />
     <Button
         android:id="@+id/signupBtn"
         android:layout_width="200dp"
@@ -151,6 +156,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Login Here"
+            android:textStyle="bold|italic"
             android:textSize="18dp"
             android:textColor="#3C3CFA"/>
     </LinearLayout>

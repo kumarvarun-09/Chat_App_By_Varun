@@ -37,7 +37,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder> {
     public void onBindViewHolder(@NonNull UserAdapter.viewHolder holder, int position) {
         Users user = userArrayList.get(position);
         holder.userName.setText(user.userName); // setting user name on recycler view
-        holder.email.setText(user.email);
+        holder.email.setText(user.status);  // CHANGE -- setting status on email
         holder.timeStamp.setText(getTimeDate(user.timeStamp));
         Picasso.get().load(user.profilePic).into(holder.profilePic);
 

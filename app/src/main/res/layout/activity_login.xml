@@ -87,6 +87,7 @@
         android:layout_height="wrap_content"
         android:text="Register Here"
         android:textSize="18dp"
+        android:textStyle="bold|italic"
         android:textColor="#3C3CFA"/>
     </LinearLayout>
 
