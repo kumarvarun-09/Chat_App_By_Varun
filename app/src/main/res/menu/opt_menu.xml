@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/searchImg"
+        android:icon="@drawable/baseline_search_white_24"
+        android:title="Search"
+        android:showAsAction="always"
+        app:showAsAction="always"
+        tools:ignore="AppCompatResource" />
+    <item
+        android:id="@+id/settings"
+        android:title="Settings"
+        app:showAsAction="collapseActionView"/>
+    <item
+        android:id="@+id/logout"
+        android:title="Logout"
+        app:showAsAction="collapseActionView"/>
+
+</menu>
