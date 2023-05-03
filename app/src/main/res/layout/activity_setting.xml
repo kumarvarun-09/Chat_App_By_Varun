@@ -1,58 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Setting">
 
     <LinearLayout
-        android:id="@+id/llLayout"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:background="#8134CD"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/backTop"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="25dp"
-            android:onClick="topBackPressed"
-            android:src="@drawable/baseline_arrow_back_24" />
-
-
-        <TextView
-            android:id="@+id/settingsTopBarTex"
-            android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appbar"
+        >
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/appColor"
+            android:theme="@style/AppTheme.ActionBarTheme"
+            app:titleTextColor="@color/white"
+            android:id="@+id/toolbar"
+            >
 
-            android:gravity="center_vertical"
-            android:text="Settings"
-            android:textColor="@color/white"
-            android:textSize="22dp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="70dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:gravity="center">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profilePic"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:src="@drawable/baseline_person_24"
-        android:layout_marginBottom="40dp"
-        />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilePic"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_person_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/profilePhotoChange"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/camera_red_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Name"
         android:textSize="20dp"
@@ -62,14 +72,17 @@
 
     <EditText
         android:id="@+id/name"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Name"
         android:gravity="center"
+        android:maxLength="20"
+        android:imeOptions="actionDone"
+        android:inputType="text"
         android:layout_marginBottom="20dp"
         android:textSize="20dp"/>
     <TextView
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="About"
         android:textSize="20dp"
@@ -78,10 +91,13 @@
         android:textColor="#525153"/>
     <EditText
         android:id="@+id/status"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:hint="Status"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:maxLength="40"
         android:layout_marginBottom="20dp"
         android:textSize="20dp"/>
 
@@ -100,7 +116,7 @@
         android:layout_height="wrap_content"
         android:text="Save"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
         android:textSize="24dp"/>
     </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -2,6 +2,7 @@ package com.example.chatapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatWindow extends AppCompatActivity {
 
     public static String receiverImg, senderImg;
-    String receiverName, receiverEmail, receiverUid, senderUid;
+    String receiverName, receiverEmail, receiverUid, senderUid, receiverStatus;
     CircleImageView profilePic;
     TextView receiverNameTopBar;
     CardView sendBtn;
@@ -42,11 +44,19 @@ public class ChatWindow extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<MsgModel> messageArrayList;
     MessageAdapter messageAdapter;
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_window);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if(getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // this will make the back button visible
+        }
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -54,6 +64,8 @@ public class ChatWindow extends AppCompatActivity {
         receiverEmail = getIntent().getStringExtra("email");
         receiverImg = getIntent().getStringExtra("receiverImg");
         receiverUid = getIntent().getStringExtra("uid");
+        receiverStatus = getIntent().getStringExtra("status");
+
         messageArrayList = new ArrayList<>();
         sendBtn = findViewById(R.id.sendBtn);
         textMsg = findViewById(R.id.writeMsg);
@@ -197,8 +209,27 @@ public class ChatWindow extends AppCompatActivity {
             }
         });
 
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Go to Profile Photo View Activity
+                Intent intent = new Intent(getApplicationContext(), UserDetails.class);
+                intent.putExtra("User", receiverName);
+                intent.putExtra("ProfilePicImg", receiverImg);
+                intent.putExtra("Email", receiverEmail);
+                intent.putExtra("Status", receiverStatus);
+                startActivity(intent);
+            }
+        });
+
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //if(itemId == android.R.id.home)  //this is for back button
+        super.onBackPressed();
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
