@@ -124,15 +124,19 @@ public class Setting extends AppCompatActivity {
                     }
                 });
 
-                logout.setNegativeButton("Delete Photo", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        user.profilePic = "https://firebasestorage.googleapis.com/v0/b/chat-app-70dc8.appspot.com/o/userDefaultImage.png?alt=media&token=2113f5de-c75d-4c3d-bf3d-a2da4fde3eae";
-                        Picasso.get().load(user.profilePic).into(profilePic);
-                        imageUri = null;
-                        saveData();
-                    }
-                });
+                if(user.profilePic != "https://firebasestorage.googleapis.com/v0/b/chat-app-70dc8.appspot.com/o/userDefaultImage.png?alt=media&token=2113f5de-c75d-4c3d-bf3d-a2da4fde3eae")
+                {
+                    logout.setNegativeButton("Delete Photo", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            user.profilePic = "https://firebasestorage.googleapis.com/v0/b/chat-app-70dc8.appspot.com/o/userDefaultImage.png?alt=media&token=2113f5de-c75d-4c3d-bf3d-a2da4fde3eae";
+                            Picasso.get().load(user.profilePic).into(profilePic);
+                            imageUri = null;
+                            saveData();
+                        }
+                    });
+                }
+
 
                 logout.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
